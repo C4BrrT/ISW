@@ -5,6 +5,10 @@
 #include <unistd.h>
 
 struct estacao {
+    int passageiros;
+    int embarcados;
+    pthread_mutex_t mutex;
+    pthread_cond_t cond;
 };
 
 void estacao_init(struct estacao *estacao);
@@ -18,7 +22,7 @@ void estacao_init(struct estacao *estacao) {
 }
 
 void estacao_preecher_vagao(struct estacao * estacao, int assentos) {
-    wait
+    pthread_cond_wait
 }
 
 void estacao_espera_pelo_vagao(struct estacao * estacao) {
