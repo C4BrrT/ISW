@@ -18,7 +18,7 @@ void estacao_embarque(struct estacao * estacao);
 
 void estacao_init(struct estacao *estacao) {
     pthread_mutex_init
-    pthread_cond_init
+    pthread_cond_init(&cond, NULL);
 }
 
 void estacao_preecher_vagao(struct estacao * estacao, int assentos) {
