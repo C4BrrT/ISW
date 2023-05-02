@@ -12,11 +12,6 @@ void estacao_preecher_vagao(struct estacao * estacao, int assentos);
 void estacao_espera_pelo_vagao(struct estacao * estacao);
 void estacao_embarque(struct estacao * estacao);
 
-int main(int argc, char *argv[]){
-
-    return 0;
-}
-
 void estacao_init(struct estacao *estacao) {
     pthread_mutex_init
     pthread_cond_init

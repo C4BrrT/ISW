@@ -33,7 +33,7 @@ int main(void)
 
 	
         //
-        // create a number of passengers
+        // create a number of passengers (100)
         // each passenger is a thread
         //
         
