@@ -23,12 +23,13 @@ void estacao_init(struct estacao *estacao) {
 
 void estacao_preecher_vagao(struct estacao * estacao, int assentos) {
     pthread_cond_wait
+    pthread_cond_broadcast
 }
 
 void estacao_espera_pelo_vagao(struct estacao * estacao) {
-    
+    pthread_create    
 }
 
 void estacao_embarque(struct estacao * estacao) {
-    pthread_cond_broadcast
+    pthread_cond_signal
 }
