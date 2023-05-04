@@ -17,9 +17,8 @@ void estacao_espera_pelo_vagao(struct estacao * estacao);
 void estacao_embarque(struct estacao * estacao);
 
 void estacao_init(struct estacao *estacao) {
-    pthread_mutex_init(&mutex, NULL);
-    pthread_cond_init(&cond, NULL);
-    *estacao = malloc(sizeof(estacao));
+    pthread_mutex_init(&estacao->mutex, NULL);
+    pthread_cond_init(&estacao->cond, NULL);
 }
 
 void estacao_preecher_vagao(struct estacao * estacao, int assentos) {
@@ -28,9 +27,13 @@ void estacao_preecher_vagao(struct estacao * estacao, int assentos) {
 }
 
 void estacao_espera_pelo_vagao(struct estacao * estacao) {
-    estacao->passageiros = pthread_cond_wait(&cond, &mutex);
+    pthread_mutex_lock(&estacao->mutex);
+    while(estacao->passageiros > 0){
+        estacao->passageiros = pthread_cond_wait(&cond, &mutex);
+    }
 }
 
 void estacao_embarque(struct estacao * estacao) {
-    pthread_cond_signal
+    estacao->passageiros = pthread_cond_signal(&cond);
+    pthread_mutex_unlock(&estacao->mutex);
 }
