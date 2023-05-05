@@ -2,8 +2,8 @@ CFLAGS?=-g -Wall -Wno-unused-value
 
 all: metrorec
 
-metrorec: metrorec-runner2.c metrorec.c
-	$(CC) $(CFLAGS) -o metrorec metrorec-runner2.c -lpthread 
+metrorec: metrorec-runner.c metrorec.c
+	$(CC) $(CFLAGS) -o metrorec metrorec-runner.c -lpthread 
 
 clean:
 	$(RM) metrorec reaction
