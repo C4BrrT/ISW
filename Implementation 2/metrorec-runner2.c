@@ -39,7 +39,7 @@ int main(void)
     pthread_t passengerThreads[numPassengers];
     for (int i = 0; i < numPassengers; i++)
     {
-        pthread_create(&passengerThreads[i], NULL, passageiros_thread, (void *)&station);
+        pthread_create(&passengerThreads[i], NULL, passageiros_thread, (void *)&station); // espera_por_vagao
         printf("Creating thread %d!\n", i + 1);
     }
 
@@ -52,7 +52,7 @@ int main(void)
         struct vagao_args carArgs;
         carArgs.estacao = &station;
         carArgs.assentos_livres = seatsPerCar;
-        pthread_create(&carThread, NULL, vagao_thread, (void *)&carArgs);
+        pthread_create(&carThread, NULL, vagao_thread, (void *)&carArgs); // preencher_vagao
 
         // define the number of passenger to reap
         int numPassengersToReap = (numPassengers > seatsPerCar) ? seatsPerCar : numPassengers;
