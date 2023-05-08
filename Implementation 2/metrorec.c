@@ -11,6 +11,7 @@ struct estacao {
     pthread_mutex_t mutex;
     pthread_cond_t cond_p;
     pthread_cond_t cond_v;
+    //pthread_cond_t cond_e;
 };
 
 void estacao_init(struct estacao *estacao);
@@ -28,15 +29,13 @@ void estacao_init(struct estacao *estacao) { //1
 }
 
 void estacao_preecher_vagao(struct estacao * estacao, int assentos) { //4
-    //int passageiros = estacao->passageiros;
-    estacao->assentos_livres = assentos;
     pthread_mutex_lock(&estacao->mutex);
+    estacao->assentos_livres = assentos;
     pthread_cond_broadcast(&estacao->cond_p);
     pthread_cond_wait(&estacao->cond_v, &estacao->mutex);
-    if(estacao->assentos_livres > 0){
-        estacao->passageiros--;
-        estacao->assentos_livres--;
-        estacao->embarcados++;
+    // op1: pthread_cond_wait(&estacao->cond_e, &estacao->mutex);
+    if(estacao->assentos_livres==0 || estacao->passageiros==0){
+        pthread_cond_signal(&estacao->cond_v);
     }
     /*while(estacao->assentos_livres > 0){
         estacao->passageiros--;
@@ -44,6 +43,7 @@ void estacao_preecher_vagao(struct estacao * estacao, int assentos) { //4
         estacao->embarcados++;
     }*/
     //pthread_cond_signal(&estacao->cond_v);
+    // op1/2: pthread_cond_signal(&estacao->cond_e);
     pthread_mutex_unlock(&estacao->mutex);
 }
 
@@ -61,11 +61,15 @@ void estacao_espera_pelo_vagao(struct estacao * estacao) { //2
 
 void estacao_embarque(struct estacao * estacao) { //3
     pthread_mutex_lock(&estacao->mutex);
-    if(estacao->assentos_livres==0 || estacao->passageiros==0){
-        pthread_cond_signal(&estacao->cond_v);
+    while(estacao->assentos_livres > 0){
+        estacao->passageiros--;
+        estacao->assentos_livres--;
+        estacao->embarcados++;
+        // op2: pthread_cond_wait(&estacao->cond_e, &estacao->mutex);
     }
+    pthread_cond_signal(&estacao->cond_v);
+    //op 1/2: pthread_cond_signal(&estacao->cond_e);
     printf("Passageiro embarcando\n");
     printf("%dE \n", estacao->embarcados);
-    pthread_cond_signal(&estacao->cond_v);
     pthread_mutex_unlock(&estacao->mutex);
 }
