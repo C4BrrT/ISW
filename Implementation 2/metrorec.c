@@ -52,10 +52,11 @@ void estacao_espera_pelo_vagao(struct estacao * estacao) { //2
     estacao->passageiros++;
     printf("Passageiro esperando pelo vagao\n");
     printf("%d \n", estacao->passageiros);
-    pthread_cond_wait(&estacao->cond_p, &estacao->mutex);
-    /*while(estacao->passageiros > 0){
+    //pthread_cond_wait(&estacao->cond_p, &estacao->mutex);
+    while(estacao->assentos_livres == 0){
+        printf("teste\n");
         pthread_cond_wait(&estacao->cond_p, &estacao->mutex);
-    }*/
+    }
     pthread_mutex_unlock(&estacao->mutex);
 }
 
