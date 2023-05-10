@@ -32,7 +32,8 @@ void estacao_preecher_vagao(struct estacao * estacao, int assentos) {
     //printf("Vagão chegando\n");
     estacao->livres = assentos;
     pthread_cond_broadcast(&estacao->cond_p);
-    while(estacao->livres > 0){
+    printf("Faltam %d passageiros\n", estacao->passageiros);
+    while(estacao->livres > 0 && estacao->passageiros > 0){
         pthread_cond_wait(&estacao->cond_v, &estacao->mutex);
     }
     printf("Vagao preenchido\n");

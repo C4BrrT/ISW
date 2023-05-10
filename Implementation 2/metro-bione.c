@@ -106,6 +106,7 @@ int main(void)
         estacao_embarque(&estacao);
       }
     }
+    pthread_join(vagao, NULL);
   }
 
     printf("Terminei");

@@ -70,6 +70,7 @@ void run_test(int num_passageiros, int num_assentos)
         pthread_mutex_lock(&mutex);
         retornoCont = 0;
         pthread_mutex_unlock(&mutex);
+        pthread_join(vagao, NULL);
     }
 }
 
