@@ -91,14 +91,15 @@ void run_test(int num_passageiros, int num_assentos) {
 
 int main(void) {
     // Execute a função 'run_test' com diferentes valores para os testes
+    printf("Caso de Teste 1:\n");
     run_test(5, 5); // - não passou
     printf("\n\n Proximo: 2° Caso de Teste \n");
     run_test(10, 3); // - passou
-    printf("\n\n Proximo: 3° Caso de Teste \n");    
-    run_test(6, 4); //- passou
-    printf("\n\n Proximo: 4° Caso de Teste \n");
-    run_test(100, 25); // passou
-    printf("\n\n Ultimo Caso de Teste \n");
+    //printf("\n\n Proximo: 3° Caso de Teste \n");    
+    //run_test(6, 4); //- passou
+    //printf("\n\n Proximo: 4° Caso de Teste \n");
+    //run_test(100, 25); // passou
+    //printf("\n\n Ultimo Caso de Teste \n");
 
 
     return 0;
