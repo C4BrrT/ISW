@@ -7,70 +7,60 @@
 struct estacao {
     int passageiros;
     int embarcados;
-    int assentos_livres;
+    int livres;
     pthread_mutex_t mutex;
     pthread_cond_t cond_p;
     pthread_cond_t cond_v;
-    //pthread_cond_t cond_e;
 };
 
 void estacao_init(struct estacao *estacao);
-void estacao_preecher_vagao(struct estacao * estacao, int assentos);
+void estacao_preencher_vagao(struct estacao * estacao, int assentos);
 void estacao_espera_pelo_vagao(struct estacao * estacao);
 void estacao_embarque(struct estacao * estacao);
 
-void estacao_init(struct estacao *estacao) { //1
+void estacao_init(struct estacao *estacao) {
     estacao->passageiros = 0;
     estacao->embarcados = 0;
-    estacao->assentos_livres = 0;
+    estacao->livres = 0;
     pthread_mutex_init(&estacao->mutex, NULL);
     pthread_cond_init(&estacao->cond_p, NULL);
     pthread_cond_init(&estacao->cond_v, NULL);
 }
 
-void estacao_preecher_vagao(struct estacao * estacao, int assentos) { //4
+void estacao_preencher_vagao(struct estacao * estacao, int assentos) {
     pthread_mutex_lock(&estacao->mutex);
-    estacao->assentos_livres = assentos;
+    //printf("Vagão chegando\n");
+    estacao->livres = assentos;
     pthread_cond_broadcast(&estacao->cond_p);
-    pthread_cond_wait(&estacao->cond_v, &estacao->mutex);
-    // op1: pthread_cond_wait(&estacao->cond_e, &estacao->mutex);
-    if(estacao->assentos_livres==0 || estacao->passageiros==0){
-        pthread_cond_signal(&estacao->cond_v);
+    printf("Faltam %d passageiros embarcarem\n", estacao->passageiros);
+    while(estacao->livres > 0 && estacao->passageiros > 0){
+        pthread_cond_wait(&estacao->cond_v, &estacao->mutex);
     }
-    /*while(estacao->assentos_livres > 0){
-        estacao->passageiros--;
-        estacao->assentos_livres--;
-        estacao->embarcados++;
-    }*/
-    //pthread_cond_signal(&estacao->cond_v);
-    // op1/2: pthread_cond_signal(&estacao->cond_e);
+    printf("Vagao preenchido\n");
     pthread_mutex_unlock(&estacao->mutex);
 }
 
-void estacao_espera_pelo_vagao(struct estacao * estacao) { //2
+void estacao_espera_pelo_vagao(struct estacao * estacao) {
     pthread_mutex_lock(&estacao->mutex);
     estacao->passageiros++;
-    printf("Passageiro esperando pelo vagao\n");
-    printf("%d \n", estacao->passageiros);
-    //pthread_cond_wait(&estacao->cond_p, &estacao->mutex);
-    while(estacao->assentos_livres == 0){
-        printf("teste\n");
+    printf("Passageiro %d chegou função\n", estacao->passageiros);
+    while(estacao->livres == 0){
         pthread_cond_wait(&estacao->cond_p, &estacao->mutex);
     }
+    /*while(estacao->passageiros > 0){
+        estacao->passageiros = pthread_cond_wait(&estacao->cond, &estacao->mutex);
+    }*/
     pthread_mutex_unlock(&estacao->mutex);
 }
 
-void estacao_embarque(struct estacao * estacao) { //3
+void estacao_embarque(struct estacao * estacao) {
     pthread_mutex_lock(&estacao->mutex);
-    while(estacao->assentos_livres > 0){
-        estacao->passageiros--;
-        estacao->assentos_livres--;
-        estacao->embarcados++;
-        // op2: pthread_cond_wait(&estacao->cond_e, &estacao->mutex);
+    estacao->embarcados++;
+    estacao->passageiros--;
+    estacao->livres--;
+    printf("Agora tem %d assentos livres no vagão, e %d passageiros embarcaram\n", estacao->livres, estacao->embarcados);
+    if(estacao->livres == 0 || estacao->passageiros == 0){
+        pthread_cond_signal(&estacao->cond_v);
     }
-    pthread_cond_signal(&estacao->cond_v);
-    //op 1/2: pthread_cond_signal(&estacao->cond_e);
-    printf("Passageiro embarcando\n");
-    printf("%dE \n", estacao->embarcados);
     pthread_mutex_unlock(&estacao->mutex);
 }
