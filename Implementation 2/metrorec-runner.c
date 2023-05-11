@@ -47,7 +47,8 @@ int run_test(int numPassageiros, int numAssentos)
     //printf("Passageiro %d chegou\n", i+1);
     pthread_create(&passageiros[i], NULL, (void *)passageiros_thread, (void *)&estacao);
     passageiro++;
-  }     
+  }
+  sleep(2);
         //
         // loop to create as many car as necessary to board all passengers
         //
@@ -82,20 +83,20 @@ int run_test(int numPassageiros, int numAssentos)
                 // ATTENTION: the car can not have more passengers than the number of free seats
                 //
     while(reap != 0){
-        if(counter > reap){
-            printf("Deu ruim");
-            exit(0);
-        }
       if(counter > 0){
         passageiro--;
         assentos--;
         reap--;
         __atomic_fetch_add(&counter, -1, __ATOMIC_SEQ_CST);
-        while(reap != 0 && counter == 0);
+        //while(reap != 0 && counter == 0);
         estacao_embarque(&estacao);
       }
     }
-    pthread_join(vagao, NULL);  
+    if(counter > reap){
+      printf("Deu ruim\n");
+      exit(0);
+    }
+    //pthread_join(vagao, NULL);  
     printf("Vagão saiu da estação\n");
     }
     printf("Estação finalizada\n");
@@ -103,7 +104,7 @@ int run_test(int numPassageiros, int numAssentos)
 }
 
 int main(void){
-  //run_test(10, 0); // Primeiro argumento = número de passageiros, segundo argumento = número de assentos por vagão.
-  run_test(10, 5); //verificar se vagão chegou com 0 assentos
+  run_test(10, 5); // Primeiro argumento = número de passageiros, segundo argumento = número de assentos por vagão.
+    // verificar se vagão chegou com 0 assentos
 
 }
