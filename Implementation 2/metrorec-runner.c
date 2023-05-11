@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#include "metrorec2.c"
+#include "metrorec.c"
 
 int counter = 0;
 
