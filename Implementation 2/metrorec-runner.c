@@ -103,7 +103,7 @@ int run_test(int numPassageiros, int numAssentos)
 }
 
 int main(void){
-  run_test(10, 0); // Primeiro argumento = número de passageiros, segundo argumento = número de assentos por vagão.
-    // verificar se vagão chegou com 0 assentos
+  //run_test(10, 0); // Primeiro argumento = número de passageiros, segundo argumento = número de assentos por vagão.
+  run_test(10, 5); //verificar se vagão chegou com 0 assentos
 
 }
