@@ -65,4 +65,3 @@ void estacao_embarque(struct estacao * estacao) {
     }
     pthread_mutex_unlock(&estacao->mutex);
 }
-//teste
