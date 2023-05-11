@@ -58,7 +58,7 @@ void estacao_embarque(struct estacao * estacao) {
     estacao->embarcados++;
     estacao->passageiros--;
     estacao->livres--;
-    printf("Passageiro %d embarcando\n", estacao->embarcados);
+    printf("Tem %d assentos livres, e passageiro %d está embarcando\n", estacao->livres, estacao->embarcados);
     if(estacao->livres == 0 || estacao->passageiros == 0){
         pthread_cond_signal(&estacao->cond_v);
     }
