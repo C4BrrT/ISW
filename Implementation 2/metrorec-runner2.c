@@ -82,6 +82,17 @@ int run_test(int numPassageiros, int numAssentos)
 }
 
 int main(void){
-  run_test(20, 6);
+  /*run_test(5, 5);
+  printf("Fim do primeiro teste\n\n");
+  run_test(10, 5);
+  printf("Fim do segundo teste\n\n");
+  run_test(10, 3);
+  printf("Fim do terceiro teste\n\n");*/
+  run_test(10, 10);
+  printf("Fim do quarto teste\n\n");
+  run_test(5, 10);
+  printf("Fim do quinto teste\n\n");
+  run_test(0, 10);
+  printf("Fim do sexto teste\n\n");
 
 }
