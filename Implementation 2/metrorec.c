@@ -50,9 +50,6 @@ void estacao_espera_pelo_vagao(struct estacao * estacao) {
     printf("Passageiro %d saiu da espera\n", estacao->passageiros);
     estacao->livres--;
     estacao->passageiros--;
-    /*while(estacao->passageiros > 0){
-        estacao->passageiros = pthread_cond_wait(&estacao->cond, &estacao->mutex);
-    }*/
     pthread_mutex_unlock(&estacao->mutex);
 }
 
