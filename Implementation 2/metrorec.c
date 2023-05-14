@@ -36,6 +36,7 @@ void estacao_preencher_vagao(struct estacao * estacao, int assentos) {
     while(estacao->livres > 0 && estacao->passageiros > 0){
         pthread_cond_wait(&estacao->cond_v, &estacao->mutex);
     }
+    //pthread_cond_wait(&estacao->cond_p, &estacao->mutex);
     printf("Vagao preenchido\n");
     pthread_mutex_unlock(&estacao->mutex);
 }
