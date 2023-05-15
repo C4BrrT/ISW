@@ -32,15 +32,8 @@ void estacao_preencher_vagao(struct estacao * estacao, int assentos) {
     estacao->livres = assentos;
     //printf("Faltam %d passageiros embarcarem\n", estacao->passageiros);
     pthread_cond_broadcast(&estacao->cond_p);
-    // if (estacao->livres > 0 && estacao->passageiros > 0) {
-    //     pthread_cond_signal(&estacao->cond_v);
-    // }
     while(estacao->livres != estacao->embarcados_emb && estacao->passageiros_pas != 0){
-        //pthread_cond_broadcast(&estacao->cond_p);
         pthread_cond_wait(&estacao->cond_v, &estacao->mutex);
-        // if (estacao->livres <= 0 || estacao->passageiros <= 0) {
-        //      break;
-        // }
     }
     estacao->livres=0;
     estacao->embarcados=0;
