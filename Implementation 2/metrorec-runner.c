@@ -98,7 +98,7 @@ int run_test(int numPassageiros, int numAssentos)
       exit(0);
     }
     //pthread_join(vagao, NULL);
-    sleep(1);
+    //sleep(1);
     printf("Vagão saiu da estação\n");
     }
     printf("Estação finalizada\n");
