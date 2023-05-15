@@ -48,7 +48,7 @@ int run_test(int numPassageiros, int numAssentos)
     pthread_create(&passageiros[i], NULL, (void *)passageiros_thread, (void *)&estacao);
     passageiro++;
   }
-  //sleep(2);
+  sleep(1);
         //
         // loop to create as many car as necessary to board all passengers
         //
@@ -66,6 +66,7 @@ int run_test(int numPassageiros, int numAssentos)
                 //
     pthread_t vagao;
     pthread_create(&vagao, NULL, (void *)vagao_thread, (void *)&vargs);
+    //sleep(1);
     //printf("Vagão %d chegou na estação\n", repCount++);
                 //
                 // define the number of passenger to reap
@@ -97,6 +98,7 @@ int run_test(int numPassageiros, int numAssentos)
       exit(0);
     }
     //pthread_join(vagao, NULL);
+    sleep(1);
     printf("Vagão saiu da estação\n");
     }
     printf("Estação finalizada\n");

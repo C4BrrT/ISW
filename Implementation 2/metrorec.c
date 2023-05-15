@@ -15,11 +15,6 @@ struct estacao {
     pthread_cond_t cond_v;
 };
 
-void estacao_init(struct estacao *estacao);
-void estacao_preencher_vagao(struct estacao * estacao, int assentos);
-void estacao_espera_pelo_vagao(struct estacao * estacao);
-void estacao_embarque(struct estacao * estacao);
-
 void estacao_init(struct estacao *estacao) {
     estacao->passageiros = 0;
     estacao->embarcados = 0;
