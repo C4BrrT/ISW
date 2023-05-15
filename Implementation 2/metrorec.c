@@ -9,7 +9,7 @@ struct estacao {
     int passageiros_pas;
     int embarcados;
     int embarcados_emb;
-    int livres;
+    int assentos_livres;
     pthread_mutex_t mutex;
     pthread_cond_t cond_p;
     pthread_cond_t cond_v;
@@ -19,7 +19,7 @@ struct estacao {
 void estacao_init(struct estacao *estacao) {
     estacao->passageiros = 0;
     estacao->embarcados = 0;
-    estacao->livres = 0;
+    estacao->assentos_livres = 0;
     estacao->embarcados_emb = 0;
     estacao->passageiros_pas =0;
     pthread_mutex_init(&estacao->mutex, NULL);
@@ -30,12 +30,12 @@ void estacao_init(struct estacao *estacao) {
 
 void estacao_preencher_vagao(struct estacao * estacao, int assentos) {
     pthread_mutex_lock(&estacao->mutex);
-    estacao->livres = assentos;
+    estacao->assentos_livres = assentos;
     pthread_cond_broadcast(&estacao->cond_p);
-    while(estacao->livres != estacao->embarcados_emb && estacao->passageiros_pas != 0){
+    while(estacao->assentos_livres != estacao->embarcados_emb && estacao->passageiros_pas != 0){
         pthread_cond_wait(&estacao->cond_v, &estacao->mutex);
     }
-    estacao->livres=0;
+    estacao->assentos_livres=0;
     estacao->embarcados=0;
     estacao->embarcados_emb=0;
     pthread_cond_signal(&estacao->cond_e_v);
@@ -46,7 +46,7 @@ void estacao_espera_pelo_vagao(struct estacao * estacao) {
     pthread_mutex_lock(&estacao->mutex);
     estacao->passageiros++;
     estacao->passageiros_pas++;
-    while(estacao->livres == estacao->embarcados || (estacao->embarcados == 0 && estacao->livres == 0)){
+    while(estacao->assentos_livres == estacao->embarcados || (estacao->embarcados == 0 && estacao->assentos_livres == 0)){
         pthread_cond_wait(&estacao->cond_p, &estacao->mutex);
     }
     estacao->embarcados++;
@@ -58,7 +58,7 @@ void estacao_embarque(struct estacao * estacao) {
     pthread_mutex_lock(&estacao->mutex);
     estacao->embarcados_emb++;
     estacao->passageiros_pas--;
-    if(estacao->embarcados_emb == estacao->livres || estacao->passageiros_pas == 0){
+    if(estacao->embarcados_emb == estacao->assentos_livres || estacao->passageiros_pas == 0){
         pthread_cond_signal(&estacao->cond_v);
         pthread_cond_wait(&estacao->cond_e_v, &estacao->mutex);
     }
