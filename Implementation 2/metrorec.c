@@ -13,6 +13,7 @@ struct estacao {
     pthread_mutex_t mutex;
     pthread_cond_t cond_p;
     pthread_cond_t cond_v;
+    pthread_cond_t cond_e_v;
 };
 
 void estacao_init(struct estacao *estacao) {
@@ -24,6 +25,7 @@ void estacao_init(struct estacao *estacao) {
     pthread_mutex_init(&estacao->mutex, NULL);
     pthread_cond_init(&estacao->cond_p, NULL);
     pthread_cond_init(&estacao->cond_v, NULL);
+    pthread_cond_init(&estacao->cond_e_v, NULL);
 }
 
 void estacao_preencher_vagao(struct estacao * estacao, int assentos) {
@@ -38,6 +40,7 @@ void estacao_preencher_vagao(struct estacao * estacao, int assentos) {
     estacao->livres=0;
     estacao->embarcados=0;
     estacao->embarcados_emb=0;
+    pthread_cond_signal(&estacao->cond_e_v);
     //printf("Vagao preenchido\n");
     pthread_mutex_unlock(&estacao->mutex);
 }
@@ -64,6 +67,7 @@ void estacao_embarque(struct estacao * estacao) {
     if(estacao->embarcados_emb == estacao->livres || estacao->passageiros_pas == 0){
         //printf("signal vagao");
         pthread_cond_signal(&estacao->cond_v);
+        pthread_cond_wait(&estacao->cond_e_v, &estacao->mutex);
     }
     pthread_mutex_unlock(&estacao->mutex);
 }
