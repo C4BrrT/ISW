@@ -45,7 +45,7 @@ int run_test(int numPassageiros, int numAssentos)
     sleep(1);
 
   struct vagao_args vargs;
-  vargs.estacao = &estacao;  
+  vargs.estacao = &estacao;
   vargs.assentos_livres = numAssentos;
   
   while(passageiro > 0){
@@ -76,18 +76,19 @@ int run_test(int numPassageiros, int numAssentos)
       exit(0);
     } 
     printf("Vagão saiu da estação\n");
+    sleep(1);
     }
     printf("Estação finalizada\n");
   return 0;
 }
 
 int main(void){
-  /*run_test(5, 5);
+  run_test(5, 5);
   printf("Fim do primeiro teste\n\n");
   run_test(10, 5);
   printf("Fim do segundo teste\n\n");
   run_test(10, 3);
-  printf("Fim do terceiro teste\n\n");*/
+  printf("Fim do terceiro teste\n\n");
   run_test(10, 10);
   printf("Fim do quarto teste\n\n");
   run_test(5, 10);

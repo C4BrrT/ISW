@@ -48,7 +48,7 @@ int run_test(int numPassageiros, int numAssentos)
     pthread_create(&passageiros[i], NULL, (void *)passageiros_thread, (void *)&estacao);
     passageiro++;
   }
-  sleep(2);
+  //sleep(2);
         //
         // loop to create as many car as necessary to board all passengers
         //
@@ -96,7 +96,7 @@ int run_test(int numPassageiros, int numAssentos)
       printf("Deu ruim\n");
       exit(0);
     }
-    //pthread_join(vagao, NULL);  
+    //pthread_join(vagao, NULL);
     printf("Vagão saiu da estação\n");
     }
     printf("Estação finalizada\n");
@@ -104,7 +104,17 @@ int run_test(int numPassageiros, int numAssentos)
 }
 
 int main(void){
-  run_test(10, 5); // Primeiro argumento = número de passageiros, segundo argumento = número de assentos por vagão.
-    // verificar se vagão chegou com 0 assentos
+  run_test(5, 5);
+  printf("Fim do primeiro teste\n\n");
+  run_test(10, 5);
+  printf("Fim do segundo teste\n\n");
+  run_test(10, 3);
+  printf("Fim do terceiro teste\n\n");
+  run_test(10, 10);
+  printf("Fim do quarto teste\n\n");
+  run_test(5, 10);
+  printf("Fim do quinto teste\n\n");
+  run_test(0, 10);
+  printf("Fim do sexto teste\n\n");
 
 }
